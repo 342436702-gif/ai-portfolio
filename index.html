@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Design Portfolio — 智能视觉设计作品集</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f7f7f7;
+  --card-bg: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-muted: #999;
+  --accent: #e60023;
+  --accent-hover: #ad081b;
+  --border: #e8e8e8;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.15);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --nav-h: 64px;
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ===== Navigation ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+}
+.nav-logo {
+  font-family: var(--font-serif);
+  font-weight: 900; font-size: 20px;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+}
+.nav-search {
+  flex: 1; max-width: 480px;
+  position: relative;
+}
+.nav-search input {
+  width: 100%; height: 44px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: #f0f0f0;
+  padding: 0 20px 0 44px;
+  font-size: 14px; font-family: inherit;
+  transition: all 0.2s;
+  outline: none;
+}
+.nav-search input:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230,0,35,0.1);
+}
+.nav-search svg {
+  position: absolute; left: 16px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  color: var(--text-secondary);
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px;
+  margin-left: auto;
+}
+.nav-links a {
+  padding: 8px 16px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: #f0f0f0; color: var(--text-primary);
+}
+
+/* ===== Hero ===== */
+.hero {
+  padding: calc(var(--nav-h) + 48px) 0 56px;
+  background:
+    linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.5) 60%, rgba(247,247,247,1) 100%),
+    url('assets/hero-bg.jpg') center/cover no-repeat;
+  position: relative;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 20px;
+  background: #fff; border: 1px solid var(--border);
+  font-size: 13px; font-weight: 500; color: var(--text-secondary);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.hero-tag .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--text-secondary);
+  max-width: 640px; margin: 0 auto 32px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 48px;
+  flex-wrap: wrap;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num {
+  font-family: var(--font-serif);
+  font-size: 36px; font-weight: 700;
+  color: var(--text-primary);
+}
+.hero-stat .label {
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ===== Methodology ===== */
+.method {
+  max-width: 1200px; margin: 0 auto;
+  padding: 32px 24px 24px;
+}
+.method-head {
+  display: flex; align-items: baseline; gap: 16px;
+  margin-bottom: 24px;
+}
+.method-eyebrow {
+  font-size: 12px; font-weight: 600;
+  color: var(--accent); letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.method-title {
+  font-family: var(--font-serif);
+  font-size: 22px; font-weight: 700;
+}
+.method-sub {
+  color: var(--text-muted); font-size: 13px;
+  margin-left: auto;
+}
+.method-flow {
+  display: flex; align-items: stretch;
+  gap: 0;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.method-step {
+  flex: 1; padding: 20px 24px;
+  display: flex; align-items: center; gap: 14px;
+  position: relative;
+}
+.method-step:not(:last-child)::after {
+  content: ''; position: absolute;
+  right: 0; top: 50%; transform: translateY(-50%);
+  width: 1px; height: 32px;
+  background: var(--border);
+}
+.method-step .icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.method-step:nth-child(1) .icon { background: #fef3c7; color: #d97706; }
+.method-step:nth-child(2) .icon { background: #dbeafe; color: #2563eb; }
+.method-step:nth-child(3) .icon { background: #dcfce7; color: #16a34a; }
+.method-step .text h3 {
+  font-size: 14px; font-weight: 600; margin-bottom: 2px;
+}
+.method-step .text p {
+  font-size: 12px; color: var(--text-muted); line-height: 1.5;
+}
+.method-result {
+  margin-top: 16px;
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.7;
+}
+.method-result strong {
+  color: var(--text-primary); font-weight: 600;
+}
+
+/* ===== Filter Bar ===== */
+.filter-section {
+  max-width: 1400px; margin: 0 auto;
+  padding: 32px 24px 16px;
+  position: sticky; top: var(--nav-h); z-index: 50;
+  background: var(--bg);
+}
+.filter-bar {
+  display: flex; align-items: center; gap: 8px;
+  overflow-x: auto; padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-btn {
+  padding: 8px 18px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  background: #fff; border: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: all 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.filter-btn:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+.filter-btn.active {
+  background: var(--text-primary);
+  color: #fff; border-color: var(--text-primary);
+}
+
+/* ===== Masonry Gallery ===== */
+.gallery {
+  max-width: 1400px; margin: 0 auto;
+  padding: 16px 24px 80px;
+  columns: 4;
+  column-gap: 20px;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.gallery-item .img-wrap {
+  position: relative; overflow: hidden;
+}
+.gallery-item img {
+  width: 100%; transition: transform 0.4s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.03);
+}
+.gallery-item .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.25s;
+  display: flex; align-items: flex-end;
+  padding: 20px;
+}
+.gallery-item:hover .overlay { opacity: 1; }
+.gallery-item .overlay-text {
+  color: #fff; font-size: 13px; font-weight: 500;
+}
+.gallery-item .info {
+  padding: 14px 16px 16px;
+}
+.gallery-item .cat-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 10px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.cat-tea { background: #f0fdf4; color: #15803d; }
+.cat-beauty { background: #fdf2f8; color: #be185d; }
+.cat-appliance { background: #eff6ff; color: #1d4ed8; }
+.cat-culture { background: #fef3c7; color: #b45309; }
+.cat-brand { background: #f5f3ff; color: #6d28d9; }
+.cat-festival { background: #fff7ed; color: #c2410c; }
+.gallery-item .title {
+  font-size: 15px; font-weight: 600;
+  margin-bottom: 4px; line-height: 1.4;
+}
+.gallery-item .desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s;
+}
+.modal-overlay.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: #fff; border-radius: 24px;
+  max-width: 1000px; width: 100%;
+  max-height: 90vh; overflow: hidden;
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-img {
+  background: #1a1a1a;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.modal-img img {
+  width: 100%; height: 100%; object-fit: contain;
+  max-height: 90vh;
+}
+.modal-content {
+  padding: 40px 36px;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10; transition: all 0.15s;
+}
+.modal-close:hover { background: #fff; transform: scale(1.1); }
+.modal-close svg { width: 18px; height: 18px; }
+.modal-cat {
+  display: inline-block; align-self: flex-start;
+  font-size: 12px; font-weight: 600;
+  padding: 4px 12px; border-radius: 12px;
+  margin-bottom: 16px;
+}
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: 26px; font-weight: 700;
+  line-height: 1.3; margin-bottom: 12px;
+}
+.modal-section {
+  margin-top: 24px;
+}
+.modal-section h4 {
+  font-size: 13px; font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.modal-section p {
+  font-size: 14px; line-height: 1.8;
+  color: var(--text-primary);
+}
+.modal-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 8px;
+}
+.modal-tags span {
+  font-size: 12px; padding: 4px 12px;
+  border-radius: 12px; background: #f5f5f5;
+  color: var(--text-secondary);
+}
+.modal-nav {
+  margin-top: auto; padding-top: 24px;
+  display: flex; gap: 12px;
+}
+.modal-nav button {
+  flex: 1; padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 500;
+  border: 1px solid var(--border);
+  background: #fff; color: var(--text-primary);
+  transition: all 0.15s;
+}
+.modal-nav button:hover {
+  background: #f5f5f5; border-color: var(--text-primary);
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: #1a1a1a; color: #999;
+  padding: 48px 24px 32px;
+  text-align: center;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+.footer-logo {
+  font-family: var(--font-serif);
+  font-size: 22px; font-weight: 900;
+  color: #fff; margin-bottom: 12px;
+}
+.footer p {
+  font-size: 14px; line-height: 1.8;
+  max-width: 500px; margin: 0 auto 24px;
+}
+.footer-divider {
+  width: 40px; height: 2px; background: #333;
+  margin: 0 auto 24px;
+}
+.footer-copy {
+  font-size: 12px; color: #666;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1200px) {
+  .gallery { columns: 3; }
+}
+@media (max-width: 900px) {
+  .gallery { columns: 2; }
+  .method-head { flex-wrap: wrap; gap: 8px; }
+  .method-sub { margin-left: 0; width: 100%; }
+  .method-flow { flex-direction: column; }
+  .method-step:not(:last-child)::after {
+    right: auto; left: 50%; top: auto; bottom: 0;
+    transform: translateX(-50%);
+    width: 32px; height: 1px;
+  }
+  .modal { grid-template-columns: 1fr; max-height: 92vh; }
+  .modal-img { max-height: 50vh; }
+  .modal-content { padding: 28px 24px; }
+  .nav-links { display: none; }
+}
+@media (max-width: 560px) {
+  .gallery { columns: 1; padding: 16px; }
+  .hero { padding: calc(var(--nav-h) + 32px) 0 40px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat .num { font-size: 28px; }
+  .nav { padding: 0 16px; }
+  .filter-section { padding: 24px 16px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav">
+  <div class="nav-logo"><span class="dot"></span>AI Portfolio</div>
+  <div class="nav-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="搜索作品案例..." id="searchInput">
+  </div>
+  <div class="nav-links">
+    <a href="#works" class="active">作品</a>
+    <a href="#method">方法论</a>
+    <a href="#about">关于</a>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="pulse"></span>AI × 商业视觉设计 · 持续更新中</div>
+    <h1>用<span class="highlight">AI 光影</span>重塑<br>商业视觉生产力</h1>
+    <p>以 AI 生成场景光影为基底，融合实拍白底产品图，在保证视觉品质的同时，将传统拍摄流程的时间与成本压缩至原来的十分之一。</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">17+</div><div class="label">商业案例</div></div>
+      <div class="hero-stat"><div class="num">6</div><div class="label">行业领域</div></div>
+      <div class="hero-stat"><div class="num">90%</div><div class="label">成本降低</div></div>
+      <div class="hero-stat"><div class="num">3x</div><div class="label">出图效率</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Methodology ===== -->
+<section class="method" id="method">
+  <div class="method-head">
+    <span class="method-eyebrow">Methodology</span>
+    <h2 class="method-title">设计方法论</h2>
+    <span class="method-sub">AI 场景光影 × 实拍白底图</span>
+  </div>
+  <div class="method-flow">
+    <div class="method-step">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707"/><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <div class="text">
+        <h3>AI 生成场景</h3>
+        <p>按产品调性生成氛围光影与环境</p>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      </div>
+      <div class="text">
+        <h3>实拍白底图</h3>
+        <p>专业拍摄确保产品细节与色彩准确</p>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+      </div>
+      <div class="text">
+        <h3>光影合成</h3>
+        <p>统一光向色温透视，以假乱真</p>
+      </div>
+    </div>
+  </div>
+  <div class="method-result">
+    <strong>核心价值：</strong>省去租棚搭景与反复布光成本，单张海报制作周期从数天缩短至数小时，同时保持商业级视觉品质。
+  </div>
+</section>
+
+<!-- ===== Filter & Gallery ===== -->
+<section id="works">
+  <div class="filter-section">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">全部作品</button>
+      <button class="filter-btn" data-filter="tea">茶饮品牌</button>
+      <button class="filter-btn" data-filter="beauty">美妆护肤</button>
+      <button class="filter-btn" data-filter="appliance">家电数码</button>
+      <button class="filter-btn" data-filter="culture">文化艺术</button>
+      <button class="filter-btn" data-filter="brand">品牌周年</button>
+      <button class="filter-btn" data-filter="festival">节日营销</button>
+    </div>
+  </div>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<!-- ===== Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="modal-img"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-content">
+      <span class="modal-cat" id="modalCat"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-section">
+        <h4>设计理念</h4>
+        <p id="modalConcept"></p>
+      </div>
+      <div class="modal-section">
+        <h4>AI 应用手法</h4>
+        <p id="modalTech"></p>
+      </div>
+      <div class="modal-section">
+        <h4>技术标签</h4>
+        <div class="modal-tags" id="modalTags"></div>
+      </div>
+      <div class="modal-nav">
+        <button id="prevBtn">← 上一个</button>
+        <button id="nextBtn">下一个 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer class="footer" id="about">
+  <div class="footer-inner">
+    <div class="footer-logo">AI Design Portfolio</div>
+    <p>专注于 AI 辅助商业视觉设计，用技术重新定义创意生产的边界。<br>所有案例均采用「AI 场景光影 + 实拍白底图」工作流制作。</p>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 AI Design Portfolio. All works are for portfolio display purposes.</div>
+  </div>
+</footer>
+
+<script>
+// ===== Portfolio Data =====
+const works = [
+  {
+    id: 1, title: '云上人参乌龙 · 本物风味系列',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/本物风味系列-云上人参乌龙海报.jpg',
+    desc: '以云南山野为灵感，AI 生成苔藓沉木场景，呈现人参乌龙的自然溯源感。',
+    concept: '围绕"超级食材"的品牌定位，将人参、乌龙茶叶等核心原料以自然陈列的方式融入山野场景。AI 生成的苔藓、沉木与泥土营造出原生态的生长环境，让消费者直观感知产品的天然属性与地域特色。',
+    tech: 'AI 生成自然场景与光影氛围，实拍产品盒与原料白底图抠图合成，统一绿色调色温与柔和侧光，使产品仿佛原生在场景之中。',
+    tags: ['AI场景生成', '产品合成', '自然光影', '茶饮包装']
+  },
+  {
+    id: 2, title: '扶风薄荷单从 · 本物风味系列',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/本物风味系列-扶风薄荷单从海报.jpg',
+    desc: '薄荷清凉意象与单从茶韵结合，AI 构建清新通透的植物场景。',
+    concept: '以"扶风"二字的飘逸感为视觉线索，用薄荷的鲜绿与单从茶的深邃形成对比。AI 场景强调通透感与空气流动，传递入口清凉、回味悠长的品饮体验。',
+    tech: 'AI 生成清新植物场景与自然光，实拍产品白底图合成，调整光影方向与场景一致，强化薄荷元素的鲜活质感。',
+    tags: ['AI场景生成', '产品合成', '清新风格', '茶饮包装']
+  },
+  {
+    id: 3, title: '炽木陈皮肉桂 · 本物风味系列',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/本物风味系列-炽木陈皮肉桂海报.jpg',
+    desc: '暖调木质场景烘托陈皮肉桂的醇厚温热，AI 营造秋日氛围。',
+    concept: '以"炽木"为核心意象，用温暖的棕红色调与木质纹理构建场景。陈皮与肉桂的陈列强调原料的质感与年份感，整体视觉传递温润、醇厚、适合秋冬品饮的产品调性。',
+    tech: 'AI 生成暖调木质场景与侧逆光，实拍产品与原料白底图合成，统一暖色温与阴影层次，营造醇厚温暖的视觉氛围。',
+    tags: ['AI场景生成', '产品合成', '暖调光影', '茶饮包装']
+  },
+  {
+    id: 4, title: '云气茶五周年创意海报',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/云气茶创意海报.jpg',
+    desc: '酒瓶化身气球飘浮于蓝天草地，AI 生成庆生活泼场景。',
+    concept: '为云气茶五周年设计的创意海报，将四款产品瓶身创意化为气球飘浮在蓝天之上，下方是翠绿草坡。整体氛围轻松欢乐，传递"气泡轻盈、茶韵悠长"的产品特性与周年庆的喜悦感。',
+    tech: 'AI 生成蓝天白云与草坡场景，实拍酒瓶白底图抠图后做气球化创意处理，添加飘带与金色纸屑元素，合成活泼的庆生画面。',
+    tags: ['AI创意合成', '节日营销', '创意视觉', '茶饮']
+  },
+  {
+    id: 5, title: '赤云涧礼盒焕新上市',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/赤云涧礼盒海报.jpg',
+    desc: '红色渐变背景配中式器物陈列，AI 营造高端礼盒的仪式感。',
+    concept: '为赤云涧礼盒升级设计的上市海报，以红色渐变背景呼应礼盒的主色调。AI 生成的中式器物（茶则、品茗杯、木架）与茶叶、茶糖等原料形成精致陈列，背景隐约的书法文字增添文化底蕴，整体传递高端礼赠的仪式感。',
+    tech: 'AI 生成红色渐变背景与书法纹理，实拍礼盒与茶具白底图合成，统一暖调侧光与桌面投影，营造高端礼盒的陈列氛围。',
+    tags: ['AI场景生成', '礼盒设计', '中式美学', '产品合成']
+  },
+  {
+    id: 6, title: '百雀羚双11明星海报',
+    cat: 'beauty', catLabel: '美妆护肤',
+    img: 'assets/百雀羚明星海报1.png',
+    desc: '曾舜晞代言，AI 生成金色流光背景，科技焕颜国潮风。',
+    concept: '为百雀羚双11直播设计的明星海报，以品牌代言人曾舜晞为视觉核心。AI 生成的金色流光与丝绸质感背景传递"科技焕颜、雀起国潮"的品牌主张，绿色产品瓶身与金色背景形成经典的百雀羚品牌色对比。',
+    tech: 'AI 生成金色流光与粒子光影背景，明星人像与产品瓶身白底图合成，统一暖调主光与环境反射，添加钻石质感文字效果。',
+    tags: ['AI背景生成', '明星合成', '美妆营销', '金色光影']
+  },
+  {
+    id: 7, title: '百雀羚帧颜系列海报',
+    cat: 'beauty', catLabel: '美妆护肤',
+    img: 'assets/百雀羚明星海报2.png',
+    desc: '科技草本概念，AI 构建晶莹剔透的护肤科技感场景。',
+    concept: '围绕百雀羚"科技新草本"的品牌定位，将传统草本与现代科技视觉融合。AI 生成的晶莹背景与光效传递产品的科技感与高端感，明星形象与产品的组合强化代言认知与购买引导。',
+    tech: 'AI 生成科技感晶莹背景与光束效果，人像与产品白底图合成，统一冷调高光与皮肤质感，营造高端护肤的科技氛围。',
+    tags: ['AI背景生成', '明星合成', '科技护肤', '光效合成']
+  },
+  {
+    id: 8, title: '科龙空调 · 爽字系列海报一',
+    cat: 'appliance', catLabel: '家电数码',
+    img: 'assets/科龙空调营销系列稿1.png',
+    desc: '巨型"爽"字为背景，AI 生成活力老人形象，20秒速冷卖点。',
+    concept: '科龙空调夏季营销系列，以巨型"爽"字为视觉符号，用 AI 生成的活力银发老人形象打破传统家电广告的刻板印象。人物开怀大笑、裙摆飞扬的动态传递"20秒凉爽"的产品核心卖点，整体风格年轻、有冲击力。',
+    tech: 'AI 生成人物形象与蓝天背景，实拍空调白底图合成，巨型文字排版与人物层级关系处理，统一明亮日光与高饱和色调。',
+    tags: ['AI人物生成', '大字报设计', '家电营销', '创意合成']
+  },
+  {
+    id: 9, title: '科龙空调 · 爽字系列海报二',
+    cat: 'appliance', catLabel: '家电数码',
+    img: 'assets/科龙空调营销系列稿2.png',
+    desc: '系列第二弹，AI 生成不同人物场景，延续爽字视觉体系。',
+    concept: '延续"爽"字系列的视觉体系，AI 生成不同的人物形象与动态场景，保持系列海报的统一识别度。每张海报通过不同人物的"爽"态表达，覆盖更广泛的受众群体，强化"20秒凉爽、20秒暖房"的产品功能记忆。',
+    tech: 'AI 生成人物形象与场景，实拍空调白底图合成，保持系列统一的排版规范与色彩体系，确保品牌视觉一致性。',
+    tags: ['AI人物生成', '系列海报', '家电营销', '品牌视觉']
+  },
+  {
+    id: 10, title: '科龙空调 · 爽字系列海报三',
+    cat: 'appliance', catLabel: '家电数码',
+    img: 'assets/科龙空调营销系列稿3.png',
+    desc: '系列第三弹，AI 生成多元人物，构建完整的"爽"营销矩阵。',
+    concept: '"爽"字系列收官之作，AI 生成的人物形象与前两张形成完整的营销矩阵。三张海报统一投放时形成强烈的视觉冲击，让"科龙20s让你爽一夏"的slogan深入人心，实现从功能告知到情感共鸣的转化。',
+    tech: 'AI 生成人物形象与场景，实拍空调白底图合成，系列化排版与色彩管理，确保三张海报并置时的视觉和谐与冲击力。',
+    tags: ['AI人物生成', '营销矩阵', '家电营销', '系列设计']
+  },
+  {
+    id: 11, title: '粤剧文化 × 哲品茶厅导览海报',
+    cat: 'culture', catLabel: '文化艺术',
+    img: 'assets/粤剧文化海报.jpg',
+    desc: '红色幕布前的粤剧花旦，AI 生成人物，配合建筑插画导览。',
+    concept: '为粤剧文化活动与哲品茶厅联动设计的导览海报。AI 生成的粤剧花旦形象立于红色丝绒幕布前，传递浓郁的岭南文化氛围。海报以插画形式标注剧社咖啡、哲品茶厅、票务中心三个空间位置，兼具文化美感与实用导览功能。',
+    tech: 'AI 生成粤剧人物形象与红色幕布背景，金色建筑插画与导览信息排版合成，统一暖调侧光与金色装饰元素，营造剧场仪式感。',
+    tags: ['AI人物生成', '文化海报', '导览设计', '粤剧文化']
+  },
+  {
+    id: 12, title: '哲品15周年品牌海报',
+    cat: 'brand', catLabel: '品牌周年',
+    img: 'assets/哲品15周年海报.jpg',
+    desc: 'AI 生成红白渐变丝绸质感3D数字"15"，东方美学一器呵成。',
+    concept: '为哲品品牌15周年设计的主视觉海报，以"东方美学 一器呵成"为主题。AI 生成的红白渐变丝绸质感数字"15"是视觉核心，流动的丝绸形态呼应哲品的东方美学基因，红色渐变从品牌色中提取，整体简洁大气、高级感十足。',
+    tech: 'AI 生成3D丝绸质感数字与流动背景，精细调整红色渐变与金色描边，极简排版与品牌信息整合，呈现高端品牌周年的视觉调性。',
+    tags: ['AI 3D生成', '品牌周年', '东方美学', '极简设计']
+  },
+  {
+    id: 13, title: '哲品茶厅新菜品海报',
+    cat: 'brand', catLabel: '品牌周年',
+    img: 'assets/哲品茶厅新菜品海报.png',
+    desc: 'AI 生成美食场景，实拍菜品白底图合成，呈现茶厅新菜单。',
+    concept: '为哲品茶厅新品上市设计的菜单海报，将多款新菜品以精致的方式呈现。AI 生成的餐桌场景与光影营造餐厅的高级氛围，实拍菜品的细节与色泽得到完美保留，让食客在看海报时就能感受到菜品的诱人魅力。',
+    tech: 'AI 生成餐厅餐桌场景与氛围光影，实拍菜品白底图抠图合成，统一暖调餐厅光与食物投影，调整菜品大小比例与陈列关系。',
+    tags: ['AI场景生成', '美食合成', '餐饮营销', '菜单设计']
+  },
+  {
+    id: 14, title: '哲品茶厅新年法餐海报',
+    cat: 'festival', catLabel: '节日营销',
+    img: 'assets/哲品茶厅新年法餐海报.jpg',
+    desc: '新年主题法餐套餐，AI 营造节日氛围，高端餐饮视觉。',
+    concept: '为哲品茶厅新年期间推出的法餐套餐设计的宣传海报。AI 生成的节日氛围场景与精致餐具陈列传递法式大餐的仪式感，暖调烛光与节日装饰营造温馨浪漫的用餐氛围，吸引消费者在新年期间到店体验。',
+    tech: 'AI 生成节日餐厅场景与烛光氛围，实拍菜品与餐具白底图合成，统一暖调烛光与桌面反射，添加节日装饰元素与排版信息。',
+    tags: ['AI场景生成', '节日营销', '法餐视觉', '餐饮设计']
+  },
+  {
+    id: 15, title: '端午节 × song\'tude 联名海报',
+    cat: 'festival', catLabel: '节日营销',
+    img: 'assets/端午节海报.jpg',
+    desc: '粽叶微距场景，AI 生成自然纹理，金色文字传递端午祝福。',
+    concept: '为 song\'tude 与哲品联名设计的端午节海报，以粽叶的微距纹理为视觉主体。AI 生成的粽叶细节清晰、色彩浓郁，传递端午节的自然与传统气息。金色的"端午"文字与两侧对联式文案增添节日仪式感，底部的茶具剪影暗示品牌的茶属性。',
+    tech: 'AI 生成粽叶微距纹理与自然光影，金色文字排版与品牌信息整合，统一深绿色调与暖金文字对比，营造传统节日的雅致氛围。',
+    tags: ['AI纹理生成', '节日海报', '传统美学', '联名设计']
+  },
+  {
+    id: 16, title: '广州设计周2025参展海报',
+    cat: 'culture', catLabel: '文化艺术',
+    img: 'assets/广州设计周2025.jpg',
+    desc: 'AI 生成设计周主题视觉，展现品牌创意与设计实力。',
+    concept: '为广州设计周2025参展设计的主题海报，以创意视觉展现品牌的设计理念与创新能力。AI 生成的视觉元素融合东方美学与现代设计语言，传递品牌在设计领域的探索与成就，吸引设计周观众关注品牌展位。',
+    tech: 'AI 生成主题视觉与创意元素，品牌信息与展会信息排版整合，统一设计调性与色彩体系，呈现专业设计展会的视觉水准。',
+    tags: ['AI创意生成', '设计展会', '品牌视觉', '创意海报']
+  }
+];
+
+// ===== Render Gallery =====
+const gallery = document.getElementById('gallery');
+let currentFilter = 'all';
+let currentIndex = 0;
+
+function renderGallery(filter = 'all', searchTerm = '') {
+  gallery.innerHTML = '';
+  const filtered = works.filter(w => {
+    const matchFilter = filter === 'all' || w.cat === filter;
+    const matchSearch = !searchTerm ||
+      w.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      w.desc.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    gallery.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:#999;">未找到匹配的作品</div>';
+    return;
+  }
+
+  filtered.forEach((work, idx) => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.dataset.id = work.id;
+    item.innerHTML = `
+      <div class="img-wrap">
+        <img src="${work.img}" alt="${work.title}" loading="lazy">
+        <div class="overlay"><span class="overlay-text">点击查看详情 →</span></div>
+      </div>
+      <div class="info">
+        <span class="cat-tag cat-${work.cat}">${work.catLabel}</span>
+        <div class="title">${work.title}</div>
+        <div class="desc">${work.desc}</div>
+      </div>
+    `;
+    item.addEventListener('click', () => openModal(work.id));
+    gallery.appendChild(item);
+  });
+}
+
+// ===== Filter =====
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  if (e.target.classList.contains('filter-btn')) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.filter;
+    renderGallery(currentFilter, document.getElementById('searchInput').value);
+  }
+});
+
+// ===== Search =====
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  renderGallery(currentFilter, e.target.value);
+});
+
+// ===== Modal =====
+const modalOverlay = document.getElementById('modalOverlay');
+const modalImg = document.getElementById('modalImg');
+const modalCat = document.getElementById('modalCat');
+const modalTitle = document.getElementById('modalTitle');
+const modalConcept = document.getElementById('modalConcept');
+const modalTech = document.getElementById('modalTech');
+const modalTags = document.getElementById('modalTags');
+
+function openModal(id) {
+  const work = works.find(w => w.id === id);
+  if (!work) return;
+  currentIndex = works.findIndex(w => w.id === id);
+
+  modalImg.src = work.img;
+  modalImg.alt = work.title;
+  modalCat.textContent = work.catLabel;
+  modalCat.className = 'modal-cat cat-' + work.cat;
+  modalTitle.textContent = work.title;
+  modalConcept.textContent = work.concept;
+  modalTech.textContent = work.tech;
+  modalTags.innerHTML = work.tags.map(t => `<span>${t}</span>`).join('');
+
+  modalOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateModal(dir) {
+  currentIndex = (currentIndex + dir + works.length) % works.length;
+  openModal(works[currentIndex].id);
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('prevBtn').addEventListener('click', () => navigateModal(-1));
+document.getElementById('nextBtn').addEventListener('click', () => navigateModal(1));
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (!modalOverlay.classList.contains('active')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft') navigateModal(-1);
+  if (e.key === 'ArrowRight') navigateModal(1);
+});
+
+// ===== Init =====
+renderGallery();
+
+// ===== Smooth scroll for nav links =====
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
