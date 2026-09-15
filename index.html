@@ -417,6 +417,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   max-height: 90vh;
   background: #000;
 }
+.modal-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.16); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  cursor: pointer; z-index: 12;
+  transition: all 0.15s;
+  backdrop-filter: blur(4px);
+}
+.modal-arrow svg { width: 22px; height: 22px; }
+.modal-arrow:hover { background: rgba(255,255,255,0.32); transform: translateY(-50%) scale(1.06); }
+.modal-arrow.prev { left: 14px; }
+.modal-arrow.next { right: 14px; }
+.modal-counter {
+  position: absolute; bottom: 14px; right: 16px;
+  font-size: 12px; color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 12px;
+  z-index: 12; letter-spacing: 0.5px;
+}
 .modal-content {
   padding: 40px 36px;
   overflow-y: auto;
@@ -520,8 +540,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     transform: translateX(-50%);
     width: 32px; height: 1px;
   }
-  .modal { grid-template-columns: 1fr; max-height: 92vh; }
-  .modal-img { max-height: 50vh; }
+  .modal { grid-template-columns: 1fr; max-height: 92vh; overflow-y: auto; }
+  .modal-img { max-height: 45vh; position: sticky; top: 0; z-index: 5; }
+  .modal-content { overflow-y: visible; padding: 24px 20px 32px; }
+  .modal-arrow { width: 38px; height: 38px; }
+  .modal-arrow svg { width: 18px; height: 18px; }
   .modal-content { padding: 28px 24px; }
   .nav-links { display: none; }
 }
@@ -633,6 +656,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <img id="modalImg" src="" alt="">
       <video id="modalVideo" controls playsinline style="display:none"></video>
       <div id="modalSlider" class="modal-slider" style="display:none"></div>
+      <button class="modal-arrow prev" id="prevArrow" aria-label="上一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="modal-arrow next" id="nextArrow" aria-label="下一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
+      <span class="modal-counter" id="modalCounter"></span>
     </div>
     <div class="modal-content">
       <span class="modal-cat" id="modalCat"></span>
@@ -800,31 +826,14 @@ const works = [
     tags: ['AI光影生成', '产品展示视频', '美妆品牌', '动态视觉']
   },
   {
-    id: 8, title: '科龙空调 · 爽字系列海报一',
-    cat: 'appliance', catLabel: '家电数码',
-    img: 'assets/科龙空调营销系列稿1.webp',
-    desc: '巨型"爽"字为背景，AI 生成活力老人形象，20秒速冷卖点。',
-    concept: '科龙空调夏季营销系列，以巨型"爽"字为视觉符号，用 AI 生成的活力银发老人形象打破传统家电广告的刻板印象。人物开怀大笑、裙摆飞扬的动态传递"20秒凉爽"的产品核心卖点，整体风格年轻、有冲击力。',
-    tech: 'AI 生成人物形象与蓝天背景，实拍空调白底图合成，巨型文字排版与人物层级关系处理，统一明亮日光与高饱和色调。',
-    tags: ['AI人物生成', '大字报设计', '家电营销', '创意合成']
-  },
-  {
-    id: 9, title: '科龙空调 · 爽字系列海报二',
-    cat: 'appliance', catLabel: '家电数码',
-    img: 'assets/科龙空调营销系列稿2.webp',
-    desc: '系列第二弹，AI 生成不同人物场景，延续爽字视觉体系。',
-    concept: '延续"爽"字系列的视觉体系，AI 生成不同的人物形象与动态场景，保持系列海报的统一识别度。每张海报通过不同人物的"爽"态表达，覆盖更广泛的受众群体，强化"20秒凉爽、20秒暖房"的产品功能记忆。',
-    tech: 'AI 生成人物形象与场景，实拍空调白底图合成，保持系列统一的排版规范与色彩体系，确保品牌视觉一致性。',
-    tags: ['AI人物生成', '系列海报', '家电营销', '品牌视觉']
-  },
-  {
-    id: 10, title: '科龙空调 · 爽字系列海报三',
+    id: 8, title: '科龙空调 · 爽字系列合集',
     cat: 'appliance', catLabel: '家电数码',
     img: 'assets/科龙空调营销系列稿3.webp',
-    desc: '系列第三弹，AI 生成多元人物，构建完整的"爽"营销矩阵。',
-    concept: '"爽"字系列收官之作，AI 生成的人物形象与前两张形成完整的营销矩阵。三张海报统一投放时形成强烈的视觉冲击，让"科龙20s让你爽一夏"的slogan深入人心，实现从功能告知到情感共鸣的转化。',
-    tech: 'AI 生成人物形象与场景，实拍空调白底图合成，系列化排版与色彩管理，确保三张海报并置时的视觉和谐与冲击力。',
-    tags: ['AI人物生成', '营销矩阵', '家电营销', '系列设计']
+    imgs: ['assets/科龙空调营销系列稿3.webp', 'assets/科龙空调营销系列稿1.webp', 'assets/科龙空调营销系列稿2.webp'],
+    desc: '三张爽字系列海报合集：小女孩吃西瓜、活力银发、家庭欢乐，左右滑动切换。',
+    concept: '科龙空调"爽字系列"三张海报合集：以巨大的艺术化"爽"字为统一视觉符号，分别由小女孩吃西瓜、活力银发女性裙摆飞扬、一家三口开怀大笑三组人物演绎，配合蓝天白云背景与"20s凉爽""20s暖房"卖点标签，传递科龙空调快速制冷制热的畅快体验。三张海报共享 AI 人物生成 + 实拍白底图合成的统一工作流，并置投放时形成完整的营销矩阵。',
+    tech: 'AI 生成人物形象与蓝天白云背景，实拍空调白底图合成，巨型文字排版与人物层级关系处理，统一明亮日光与高饱和色调，合集卡片支持左右滑动切换。',
+    tags: ['AI人物生成', '系列合集', '大字报设计', '家电营销']
   },
   {
     id: 11, title: '粤剧文化 × 哲品茶厅导览海报',
@@ -1010,6 +1019,7 @@ function openModal(id) {
   modalConcept.textContent = work.concept;
   modalTech.textContent = work.tech;
   modalTags.innerHTML = work.tags.map(t => `<span>${t}</span>`).join('');
+  document.getElementById('modalCounter').textContent = (currentIndex + 1) + ' / ' + works.length;
 
   modalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -1030,6 +1040,8 @@ function navigateModal(dir) {
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('prevBtn').addEventListener('click', () => navigateModal(-1));
 document.getElementById('nextBtn').addEventListener('click', () => navigateModal(1));
+document.getElementById('prevArrow').addEventListener('click', (e) => { e.stopPropagation(); navigateModal(-1); });
+document.getElementById('nextArrow').addEventListener('click', (e) => { e.stopPropagation(); navigateModal(1); });
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay) closeModal();
 });
