@@ -517,6 +517,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <div class="filter-section">
     <div class="filter-bar" id="filterBar">
       <button class="filter-btn active" data-filter="all">全部作品</button>
+      <button class="filter-btn" data-filter="video">视频</button>
       <button class="filter-btn" data-filter="tea">茶饮品牌</button>
       <button class="filter-btn" data-filter="beauty">美妆护肤</button>
       <button class="filter-btn" data-filter="appliance">家电数码</button>
@@ -570,13 +571,33 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 const works = [
   {
     id: '0a', title: '春信 · 云气茶展示视频',
-    cat: 'tea', catLabel: '茶饮品牌',
+    cat: 'video', catLabel: '视频',
     img: 'assets/春信云气茶视频封面.jpg',
     video: 'assets/春信云气茶展示视频.mp4',
     desc: '4 秒动态展示视频，人物与宠物互动传递"2小时锁鲜"卖点。',
     concept: '春信茶 KV 的动态视频版本，女子手持产品面向镜头展示，身旁巴哥犬吐舌互动，室内绿沙发与窗外茶山构成温馨场景。4 秒节奏直接传递"2小时锁鲜""好喝到没招了"的核心卖点，动态画面比静态 KV 更具感染力，适用于信息流与社媒投放。',
     tech: '实拍人物动态视频结合 AI 生成场景背景，产品瓶身实拍白底素材合成，短视频节奏配合卖点文案排版，强化产品记忆点。',
     tags: ['展示视频', '短视频营销', 'KV动态版', '茶饮品牌']
+  },
+  {
+    id: '4h', title: '云气茶 · 向云端动态KV视频',
+    cat: 'video', catLabel: '视频',
+    img: 'assets/向云端动态KV封面.jpg',
+    video: 'assets/向云端动态KV.mp4',
+    desc: '10 秒动态 KV，蓝天白云与"向云端"手写排版在画面中流动。',
+    concept: '云气茶"向云端"系列海报的动态延伸，蓝天白云场景中云朵缓缓飘动、光影流转，配合"The Clouds 向云端"艺术字排版的入场动效，让原本静态的夏日海报"活"起来，适用于短视频与户外大屏投放。',
+    tech: '实拍瓶身白底图合成进 AI 生成的蓝天白云动态场景，云层流动与文字动效增强画面层次，竖版构图适配信息流投放。',
+    tags: ['动态KV', '视频营销', '场景动画', '茶饮品牌']
+  },
+  {
+    id: '7c', title: 'OLAY · 红瓶光影展示视频',
+    cat: 'video', catLabel: '视频',
+    img: 'assets/OLAY视频封面.jpg',
+    video: 'assets/OLAY小红瓶视频展示.mp4',
+    desc: '5 秒动态光影展示，红瓶精华在霓虹光效下呈现高级质感。',
+    concept: 'OLAY REGENERIST 红瓶精华的动态展示视频，延续"白底图×AI 光影"的方法论：黑色台面上的红瓶倒影与红色几何霓虹线条构成高端科技氛围，5 秒节奏聚焦瓶身细节与光影变化，强化科技护肤与高级质感的产品调性。',
+    tech: '实拍产品白底图为基础，AI 生成红色霓虹光影背景与台面倒影，动态展示瓶身细节与光效流转，红黑配色延续 OLAY 科技感视觉。',
+    tags: ['AI光影生成', '产品展示视频', '美妆品牌', '动态视觉']
   },
   {
     id: 1, title: '本物风味系列 · 三味合集',
@@ -618,16 +639,6 @@ const works = [
     tags: ['AI场景生成', '夏日海报', '系列合集', '茶饮品牌']
   },
   {
-    id: '4h', title: '云气茶 · 向云端动态KV视频',
-    cat: 'tea', catLabel: '茶饮品牌',
-    img: 'assets/向云端动态KV封面.jpg',
-    video: 'assets/向云端动态KV.mp4',
-    desc: '10 秒动态 KV，蓝天白云与"向云端"手写排版在画面中流动。',
-    concept: '云气茶"向云端"系列海报的动态延伸，蓝天白云场景中云朵缓缓飘动、光影流转，配合"The Clouds 向云端"艺术字排版的入场动效，让原本静态的夏日海报"活"起来，适用于短视频与户外大屏投放。',
-    tech: '实拍瓶身白底图合成进 AI 生成的蓝天白云动态场景，云层流动与文字动效增强画面层次，竖版构图适配信息流投放。',
-    tags: ['动态KV', '视频营销', '场景动画', '茶饮品牌']
-  },
-  {
     id: 5, title: '赤云涧礼盒焕新上市',
     cat: 'tea', catLabel: '茶饮品牌',
     img: 'assets/赤云涧礼盒海报.jpg',
@@ -662,16 +673,6 @@ const works = [
     concept: '为 OLAY REGENERIST 红瓶精华打造的 AI CG 能力演示案例，左右对比呈现"只需一张白底图，你就能得到"的过程：左侧为实拍白底产品图，右侧为同款瓶身搭配红色霓虹光影与反射特效的商业宣传画面，直观传达借助 AI CG 高效高品质出图、提高效率降低成本的方法论。',
     tech: '实拍白底产品图为基础，AI 生成红色霓虹光影背景与瓶身反射细节，同一产品图衍生出商业级场景视觉，红黑配色强化 OLAY 品牌的科技感与高级感。',
     tags: ['AI光影生成', '白底图合成', '方法演示', '美妆品牌']
-  },
-  {
-    id: '7c', title: 'OLAY · 红瓶光影展示视频',
-    cat: 'beauty', catLabel: '美妆护肤',
-    img: 'assets/OLAY视频封面.jpg',
-    video: 'assets/OLAY小红瓶视频展示.mp4',
-    desc: '5 秒动态光影展示，红瓶精华在霓虹光效下呈现高级质感。',
-    concept: 'OLAY REGENERIST 红瓶精华的动态展示视频，延续"白底图×AI 光影"的方法论：黑色台面上的红瓶倒影与红色几何霓虹线条构成高端科技氛围，5 秒节奏聚焦瓶身细节与光影变化，强化科技护肤与高级质感的产品调性。',
-    tech: '实拍产品白底图为基础，AI 生成红色霓虹光影背景与台面倒影，动态展示瓶身细节与光效流转，红黑配色延续 OLAY 科技感视觉。',
-    tags: ['AI光影生成', '产品展示视频', '美妆品牌', '动态视觉']
   },
   {
     id: 8, title: '科龙空调 · 爽字系列合集',
@@ -773,7 +774,7 @@ function renderGallery(filter = 'all', searchTerm = '') {
     item.className = 'gallery-item';
     item.dataset.id = work.id;
     const mediaHtml = work.video ? `
-      <video src="${work.video}" poster="${work.img}" muted autoplay loop playsinline preload="auto"></video>` : (work.imgs ? `
+      <video src="${work.video}" poster="${work.img}" muted autoplay loop playsinline preload="none"></video>` : (work.imgs ? `
       <div class="img-slider">
         ${work.imgs.map(src => `<img src="${src}" alt="${work.title}" loading="lazy">`).join('')}
       </div>
@@ -806,8 +807,12 @@ function renderGallery(filter = 'all', searchTerm = '') {
       if (v) {
         const io = new IntersectionObserver((entries) => {
           entries.forEach(en => {
-            if (en.isIntersecting) v.play().catch(() => {});
-            else v.pause();
+            if (en.isIntersecting) {
+              v.load();
+              v.play().catch(() => {});
+            } else {
+              v.pause();
+            }
           });
         }, { threshold: 0.3 });
         io.observe(v);
