@@ -301,6 +301,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   scrollbar-width: none;
   height: 340px;
 }
+.gallery-item .img-wrap video {
+  width: 100%; display: block;
+  background: #000;
+}
+.gallery-item .img-wrap video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
 .gallery-item .img-slider::-webkit-scrollbar { display: none; }
 .gallery-item .img-slider img {
   flex: 0 0 100%; width: 100%; height: 100%;
@@ -654,7 +661,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </button>
     <div class="modal-img">
       <img id="modalImg" src="" alt="">
-      <video id="modalVideo" controls playsinline style="display:none"></video>
+      <video id="modalVideo" controls playsinline muted style="display:none"></video>
       <div id="modalSlider" class="modal-slider" style="display:none"></div>
       <button class="modal-arrow prev" id="prevArrow" aria-label="上一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <button class="modal-arrow next" id="nextArrow" aria-label="下一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -924,16 +931,17 @@ function renderGallery(filter = 'all', searchTerm = '') {
     const item = document.createElement('div');
     item.className = 'gallery-item';
     item.dataset.id = work.id;
-    const mediaHtml = work.imgs ? `
+    const mediaHtml = work.video ? `
+      <video src="${work.video}" poster="${work.img}" muted autoplay loop playsinline preload="auto"></video>` : (work.imgs ? `
       <div class="img-slider">
         ${work.imgs.map(src => `<img src="${src}" alt="${work.title}" loading="lazy">`).join('')}
       </div>
       <span class="slider-dots">${work.imgs.map(() => '<i></i>').join('')}</span>` : `
-      <img src="${work.img}" alt="${work.title}" loading="lazy">`;
+      <img src="${work.img}" alt="${work.title}" loading="lazy">`);
     item.innerHTML = `
       <div class="img-wrap">
         ${mediaHtml}
-        ${work.video ? '<span class="video-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>视频</span>' : ''}
+        ${work.video ? '<span class="video-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>静音播放</span>' : ''}
         ${work.imgs ? '<span class="swipe-hint">左右滑动 ›</span>' : ''}
         <div class="overlay"><span class="overlay-text">点击查看详情 →</span></div>
       </div>
@@ -951,6 +959,18 @@ function renderGallery(filter = 'all', searchTerm = '') {
         const idx = Math.round(slider.scrollLeft / slider.clientWidth);
         dots.forEach((d, i) => d.classList.toggle('on', i === idx));
       });
+    }
+    if (work.video) {
+      const v = item.querySelector('video');
+      if (v) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(en => {
+            if (en.isIntersecting) v.play().catch(() => {});
+            else v.pause();
+          });
+        }, { threshold: 0.3 });
+        io.observe(v);
+      }
     }
     item.addEventListener('click', () => openModal(work.id));
     gallery.appendChild(item);
