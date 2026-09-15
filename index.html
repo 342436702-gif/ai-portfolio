@@ -400,9 +400,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
   background: #fff; border-radius: 24px;
-  max-width: 1000px; width: 100%;
+  max-width: 1080px; width: 100%;
   max-height: 90vh; overflow: hidden;
-  display: grid; grid-template-columns: 1.2fr 1fr;
+  display: grid; grid-template-columns: 1.5fr 1fr;
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 24px 80px rgba(0,0,0,0.3);
 }
@@ -469,22 +469,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 26px; font-weight: 700;
   line-height: 1.3; margin-bottom: 12px;
 }
-.modal-section {
-  margin-top: 24px;
-}
-.modal-section h4 {
-  font-size: 13px; font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-.modal-section p {
+.modal-desc {
   font-size: 14px; line-height: 1.8;
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 .modal-tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  margin-top: 8px;
+  margin-top: 16px;
 }
 .modal-tags span {
   font-size: 12px; padding: 4px 12px;
@@ -661,7 +652,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </button>
     <div class="modal-img">
       <img id="modalImg" src="" alt="">
-      <video id="modalVideo" controls playsinline muted style="display:none"></video>
+      <video id="modalVideo" controls playsinline style="display:none"></video>
       <div id="modalSlider" class="modal-slider" style="display:none"></div>
       <button class="modal-arrow prev" id="prevArrow" aria-label="上一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <button class="modal-arrow next" id="nextArrow" aria-label="下一个"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -670,18 +661,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="modal-content">
       <span class="modal-cat" id="modalCat"></span>
       <h2 class="modal-title" id="modalTitle"></h2>
-      <div class="modal-section">
-        <h4>设计理念</h4>
-        <p id="modalConcept"></p>
-      </div>
-      <div class="modal-section">
-        <h4>AI 应用手法</h4>
-        <p id="modalTech"></p>
-      </div>
-      <div class="modal-section">
-        <h4>技术标签</h4>
-        <div class="modal-tags" id="modalTags"></div>
-      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-tags" id="modalTags"></div>
       <div class="modal-nav">
         <button id="prevBtn">← 上一个</button>
         <button id="nextBtn">下一个 →</button>
@@ -751,6 +732,16 @@ const works = [
     concept: 'MORA 云气茶 2023 夏日主题"向云端"系列两张海报：竖版以蓝天白云与艺术化手写排版为主，横版聚焦瓶身特写与品牌标语。两版共享 AI 生成的蓝天白云场景光影与实拍瓶身白底图合成，蓝白主色调贯穿，传递高山云雾与轻盈清爽的夏日饮茶氛围。',
     tech: 'AI 生成蓝天白云场景光影，实拍瓶身白底图合成，竖版排版对比横版特写，手写英文字体延续系列风格，合集卡片支持左右滑动切换。',
     tags: ['AI场景生成', '夏日海报', '系列合集', '茶饮品牌']
+  },
+  {
+    id: '4h', title: '云气茶 · 向云端动态KV视频',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/向云端动态KV封面.jpg',
+    video: 'assets/向云端动态KV.mp4',
+    desc: '10 秒动态 KV，蓝天白云与"向云端"手写排版在画面中流动。',
+    concept: '云气茶"向云端"系列海报的动态延伸，蓝天白云场景中云朵缓缓飘动、光影流转，配合"The Clouds 向云端"艺术字排版的入场动效，让原本静态的夏日海报"活"起来，适用于短视频与户外大屏投放。',
+    tech: '实拍瓶身白底图合成进 AI 生成的蓝天白云动态场景，云层流动与文字动效增强画面层次，竖版构图适配信息流投放。',
+    tags: ['动态KV', '视频营销', '场景动画', '茶饮品牌']
   },
   {
     id: 5, title: '赤云涧礼盒焕新上市',
@@ -965,8 +956,7 @@ const modalVideo = document.getElementById('modalVideo');
 const modalSlider = document.getElementById('modalSlider');
 const modalCat = document.getElementById('modalCat');
 const modalTitle = document.getElementById('modalTitle');
-const modalConcept = document.getElementById('modalConcept');
-const modalTech = document.getElementById('modalTech');
+const modalDesc = document.getElementById('modalDesc');
 const modalTags = document.getElementById('modalTags');
 
 function openModal(id) {
@@ -1002,8 +992,7 @@ function openModal(id) {
   modalCat.textContent = work.catLabel;
   modalCat.className = 'modal-cat cat-' + work.cat;
   modalTitle.textContent = work.title;
-  modalConcept.textContent = work.concept;
-  modalTech.textContent = work.tech;
+  modalDesc.textContent = work.desc;
   modalTags.innerHTML = work.tags.map(t => `<span>${t}</span>`).join('');
   document.getElementById('modalCounter').textContent = (currentIndex + 1) + ' / ' + works.length;
 
