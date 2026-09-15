@@ -287,6 +287,54 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gallery-item .img-wrap {
   position: relative; overflow: hidden;
 }
+.gallery-item .video-badge {
+  position: absolute; top: 10px; right: 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(0,0,0,0.65); color: #fff;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 9px; border-radius: 20px;
+  backdrop-filter: blur(4px); z-index: 2;
+}
+.gallery-item .img-slider {
+  display: flex; overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  height: 340px;
+}
+.gallery-item .img-slider::-webkit-scrollbar { display: none; }
+.gallery-item .img-slider img {
+  flex: 0 0 100%; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  scroll-snap-align: start;
+}
+.gallery-item .slider-dots {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 2;
+}
+.gallery-item .slider-dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  transition: all 0.2s;
+}
+.gallery-item .slider-dots i.on {
+  background: #fff; transform: scale(1.35);
+}
+.gallery-item .swipe-hint {
+  position: absolute; bottom: 10px; right: 12px;
+  font-size: 11px; color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.45); padding: 3px 8px; border-radius: 12px;
+  backdrop-filter: blur(3px); z-index: 2;
+}
+.modal-slider {
+  width: 100%; height: 100%;
+  display: flex; overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.modal-slider img {
+  flex: 0 0 100%; width: 100%; height: 100%;
+  object-fit: contain; scroll-snap-align: start;
+}
 .gallery-item img {
   width: 100%; transition: transform 0.4s ease;
 }
@@ -363,6 +411,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .modal-img img {
   width: 100%; height: 100%; object-fit: contain;
   max-height: 90vh;
+}
+.modal-img video {
+  width: 100%; height: 100%; object-fit: contain;
+  max-height: 90vh;
+  background: #000;
 }
 .modal-content {
   padding: 40px 36px;
@@ -505,7 +558,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <h1>用<span class="highlight">AI 光影</span>重塑<br>商业视觉生产力</h1>
     <p>以 AI 生成场景光影为基底，融合实拍白底产品图，在保证视觉品质的同时，将传统拍摄流程的时间与成本压缩至原来的十分之一。</p>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="num">17+</div><div class="label">商业案例</div></div>
+      <div class="hero-stat"><div class="num">25+</div><div class="label">商业案例</div></div>
       <div class="hero-stat"><div class="num">6</div><div class="label">行业领域</div></div>
       <div class="hero-stat"><div class="num">90%</div><div class="label">成本降低</div></div>
       <div class="hero-stat"><div class="num">3x</div><div class="label">出图效率</div></div>
@@ -576,7 +629,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <button class="modal-close" id="modalClose">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
-    <div class="modal-img"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-img">
+      <img id="modalImg" src="" alt="">
+      <video id="modalVideo" controls playsinline style="display:none"></video>
+      <div id="modalSlider" class="modal-slider" style="display:none"></div>
+    </div>
     <div class="modal-content">
       <span class="modal-cat" id="modalCat"></span>
       <h2 class="modal-title" id="modalTitle"></h2>
@@ -614,31 +671,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 // ===== Portfolio Data =====
 const works = [
   {
-    id: 1, title: '云上人参乌龙 · 本物风味系列',
+    id: '0a', title: '春信 · 云气茶展示视频',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/春信云气茶视频封面.jpg',
+    video: 'assets/春信云气茶展示视频.mp4',
+    desc: '4 秒动态展示视频，人物与宠物互动传递"2小时锁鲜"卖点。',
+    concept: '春信茶 KV 的动态视频版本，女子手持产品面向镜头展示，身旁巴哥犬吐舌互动，室内绿沙发与窗外茶山构成温馨场景。4 秒节奏直接传递"2小时锁鲜""好喝到没招了"的核心卖点，动态画面比静态 KV 更具感染力，适用于信息流与社媒投放。',
+    tech: '实拍人物动态视频结合 AI 生成场景背景，产品瓶身实拍白底素材合成，短视频节奏配合卖点文案排版，强化产品记忆点。',
+    tags: ['展示视频', '短视频营销', 'KV动态版', '茶饮品牌']
+  },
+  {
+    id: 1, title: '本物风味系列 · 三味合集',
     cat: 'tea', catLabel: '茶饮品牌',
     img: 'assets/本物风味系列-云上人参乌龙海报.jpg',
-    desc: '以云南山野为灵感，AI 生成苔藓沉木场景，呈现人参乌龙的自然溯源感。',
-    concept: '围绕"超级食材"的品牌定位，将人参、乌龙茶叶等核心原料以自然陈列的方式融入山野场景。AI 生成的苔藓、沉木与泥土营造出原生态的生长环境，让消费者直观感知产品的天然属性与地域特色。',
-    tech: 'AI 生成自然场景与光影氛围，实拍产品盒与原料白底图抠图合成，统一绿色调色温与柔和侧光，使产品仿佛原生在场景之中。',
-    tags: ['AI场景生成', '产品合成', '自然光影', '茶饮包装']
-  },
-  {
-    id: 2, title: '扶风薄荷单从 · 本物风味系列',
-    cat: 'tea', catLabel: '茶饮品牌',
-    img: 'assets/本物风味系列-扶风薄荷单从海报.jpg',
-    desc: '薄荷清凉意象与单从茶韵结合，AI 构建清新通透的植物场景。',
-    concept: '以"扶风"二字的飘逸感为视觉线索，用薄荷的鲜绿与单从茶的深邃形成对比。AI 场景强调通透感与空气流动，传递入口清凉、回味悠长的品饮体验。',
-    tech: 'AI 生成清新植物场景与自然光，实拍产品白底图合成，调整光影方向与场景一致，强化薄荷元素的鲜活质感。',
-    tags: ['AI场景生成', '产品合成', '清新风格', '茶饮包装']
-  },
-  {
-    id: 3, title: '炽木陈皮肉桂 · 本物风味系列',
-    cat: 'tea', catLabel: '茶饮品牌',
-    img: 'assets/本物风味系列-炽木陈皮肉桂海报.jpg',
-    desc: '暖调木质场景烘托陈皮肉桂的醇厚温热，AI 营造秋日氛围。',
-    concept: '以"炽木"为核心意象，用温暖的棕红色调与木质纹理构建场景。陈皮与肉桂的陈列强调原料的质感与年份感，整体视觉传递温润、醇厚、适合秋冬品饮的产品调性。',
-    tech: 'AI 生成暖调木质场景与侧逆光，实拍产品与原料白底图合成，统一暖色温与阴影层次，营造醇厚温暖的视觉氛围。',
-    tags: ['AI场景生成', '产品合成', '暖调光影', '茶饮包装']
+    imgs: ['assets/本物风味系列-云上人参乌龙海报.jpg', 'assets/本物风味系列-扶风薄荷单从海报.jpg', 'assets/本物风味系列-炽木陈皮肉桂海报.jpg'],
+    desc: '人参乌龙、薄荷单从、陈皮肉桂三味海报合集，左右滑动切换。',
+    concept: '本物风味系列三款口味海报合集：云上人参乌龙以苔藓沉木的山野场景呈现自然溯源，扶风薄荷单从以薄荷鲜绿与通透光影传递清凉回味，炽木陈皮肉桂以暖木色调营造秋冬醇厚感。三张海报共享"AI 场景光影 + 实拍白底图合成"工作流，形成统一的自然系系列视觉语言。',
+    tech: '三张海报均采用 AI 生成自然场景光影、实拍产品白底图抠图合成的统一工作流，分别以绿色、通透、暖木色调区分三款风味，合集卡片支持左右滑动切换查看。',
+    tags: ['AI场景生成', '系列合集', '产品合成', '茶饮包装']
   },
   {
     id: 4, title: '云气茶五周年创意海报',
@@ -648,6 +698,16 @@ const works = [
     concept: '为云气茶五周年设计的创意海报，将四款产品瓶身创意化为气球飘浮在蓝天之上，下方是翠绿草坡。整体氛围轻松欢乐，传递"气泡轻盈、茶韵悠长"的产品特性与周年庆的喜悦感。',
     tech: 'AI 生成蓝天白云与草坡场景，实拍酒瓶白底图抠图后做气球化创意处理，添加飘带与金色纸屑元素，合成活泼的庆生画面。',
     tags: ['AI创意合成', '节日营销', '创意视觉', '茶饮']
+  },
+  {
+    id: '4a', title: '云气茶 · 口播视频',
+    cat: 'tea', catLabel: '茶饮品牌',
+    img: 'assets/云气茶视频封面.png',
+    video: 'assets/云气茶口播视屏.mp4',
+    desc: '4 秒口播短视频，动态展示瓶身与"2小时锁鲜"卖点。',
+    concept: '为春信茶打造的短视频口播素材，女子手持产品面向镜头展示，身旁巴哥犬吐舌互动，室内绿沙发与窗外茶山构成温馨场景。4 秒短平快的节奏直接传递"2小时锁鲜""好喝到没招了"的核心卖点，适用于信息流与社媒投放场景。',
+    tech: '实拍人物口播视频结合 AI 生成场景背景，产品瓶身实拍白底素材合成进画面，短视频节奏配合卖点文案排版，强化产品记忆点。',
+    tags: ['口播视频', '短视频营销', '产品演示', '茶饮品牌']
   },
   {
     id: '4b', title: '春信 · 人物场景KV3',
@@ -738,6 +798,16 @@ const works = [
     concept: '为 OLAY REGENERIST 红瓶精华打造的 AI CG 能力演示案例，左右对比呈现"只需一张白底图，你就能得到"的过程：左侧为实拍白底产品图，右侧为同款瓶身搭配红色霓虹光影与反射特效的商业宣传画面，直观传达借助 AI CG 高效高品质出图、提高效率降低成本的方法论。',
     tech: '实拍白底产品图为基础，AI 生成红色霓虹光影背景与瓶身反射细节，同一产品图衍生出商业级场景视觉，红黑配色强化 OLAY 品牌的科技感与高级感。',
     tags: ['AI光影生成', '白底图合成', '方法演示', '美妆品牌']
+  },
+  {
+    id: '7c', title: 'OLAY · 红瓶光影展示视频',
+    cat: 'beauty', catLabel: '美妆护肤',
+    img: 'assets/OLAY视频封面.jpg',
+    video: 'assets/OLAY小红瓶视频展示.mp4',
+    desc: '5 秒动态光影展示，红瓶精华在霓虹光效下呈现高级质感。',
+    concept: 'OLAY REGENERIST 红瓶精华的动态展示视频，延续"白底图×AI 光影"的方法论：黑色台面上的红瓶倒影与红色几何霓虹线条构成高端科技氛围，5 秒节奏聚焦瓶身细节与光影变化，强化科技护肤与高级质感的产品调性。',
+    tech: '实拍产品白底图为基础，AI 生成红色霓虹光影背景与台面倒影，动态展示瓶身细节与光效流转，红黑配色延续 OLAY 科技感视觉。',
+    tags: ['AI光影生成', '产品展示视频', '美妆品牌', '动态视觉']
   },
   {
     id: 8, title: '科龙空调 · 爽字系列海报一',
@@ -855,9 +925,17 @@ function renderGallery(filter = 'all', searchTerm = '') {
     const item = document.createElement('div');
     item.className = 'gallery-item';
     item.dataset.id = work.id;
+    const mediaHtml = work.imgs ? `
+      <div class="img-slider">
+        ${work.imgs.map(src => `<img src="${src}" alt="${work.title}" loading="lazy">`).join('')}
+      </div>
+      <span class="slider-dots">${work.imgs.map(() => '<i></i>').join('')}</span>` : `
+      <img src="${work.img}" alt="${work.title}" loading="lazy">`;
     item.innerHTML = `
       <div class="img-wrap">
-        <img src="${work.img}" alt="${work.title}" loading="lazy">
+        ${mediaHtml}
+        ${work.video ? '<span class="video-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>视频</span>' : ''}
+        ${work.imgs ? '<span class="swipe-hint">左右滑动 ›</span>' : ''}
         <div class="overlay"><span class="overlay-text">点击查看详情 →</span></div>
       </div>
       <div class="info">
@@ -866,6 +944,15 @@ function renderGallery(filter = 'all', searchTerm = '') {
         <div class="desc">${work.desc}</div>
       </div>
     `;
+    if (work.imgs) {
+      const slider = item.querySelector('.img-slider');
+      const dots = item.querySelectorAll('.slider-dots i');
+      if (dots.length) dots[0].classList.add('on');
+      slider.addEventListener('scroll', () => {
+        const idx = Math.round(slider.scrollLeft / slider.clientWidth);
+        dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+      });
+    }
     item.addEventListener('click', () => openModal(work.id));
     gallery.appendChild(item);
   });
@@ -889,6 +976,8 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
 // ===== Modal =====
 const modalOverlay = document.getElementById('modalOverlay');
 const modalImg = document.getElementById('modalImg');
+const modalVideo = document.getElementById('modalVideo');
+const modalSlider = document.getElementById('modalSlider');
 const modalCat = document.getElementById('modalCat');
 const modalTitle = document.getElementById('modalTitle');
 const modalConcept = document.getElementById('modalConcept');
@@ -900,7 +989,30 @@ function openModal(id) {
   if (!work) return;
   currentIndex = works.findIndex(w => w.id === id);
 
-  modalImg.src = work.img;
+  if (work.imgs) {
+    modalImg.style.display = 'none';
+    modalVideo.style.display = 'none';
+    modalVideo.pause();
+    modalSlider.style.display = 'flex';
+    modalSlider.innerHTML = work.imgs.map(src => `<img src="${src}" alt="${work.title}">`).join('');
+  } else if (work.video) {
+    modalImg.style.display = 'none';
+    modalSlider.style.display = 'none';
+    modalSlider.innerHTML = '';
+    modalVideo.style.display = 'block';
+    modalVideo.src = work.video;
+    modalVideo.poster = work.img;
+    modalVideo.play().catch(() => {});
+  } else {
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+    modalVideo.style.display = 'none';
+    modalSlider.style.display = 'none';
+    modalSlider.innerHTML = '';
+    modalImg.style.display = 'block';
+    modalImg.src = work.img;
+  }
   modalImg.alt = work.title;
   modalCat.textContent = work.catLabel;
   modalCat.className = 'modal-cat cat-' + work.cat;
@@ -914,6 +1026,8 @@ function openModal(id) {
 }
 
 function closeModal() {
+  modalVideo.pause();
+  modalSlider.innerHTML = '';
   modalOverlay.classList.remove('active');
   document.body.style.overflow = '';
 }
